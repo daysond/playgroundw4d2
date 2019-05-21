@@ -4,8 +4,8 @@ import Foundation
  - Callout(Stretch Goal):
 Earlier we learned about switch statements and tuples. So far we've evaluated the tuple based on a very simple comparison; we just compare if the values match. We can create more complicated matching patterns for our cases.
 */
-let pet = (name: "Tim", animal: "Dog", age: 2)
-
+var pet = (name: "Tim", animal: "Dog", age: 2)
+pet = (name: "Tim", animal: "Dog", age: 2)
 switch pet {
 case (let name, let animal, let age) where (age < 1 || name.count < 1 || animal.count < 1):
     print("This pet data is not valid")
@@ -24,23 +24,31 @@ case (let name, let animal, let age):
 //: Play around with the above switch statement to find out how each case works.
 //: Then below, write out what the meaning of the switch condition is.
 
+
+
 // case (let name, let animal, let age) where (age < 1 || name.count < 1 || animal.count < 1):
 // Explain what this does.
+// if age less than 1 and no name and no animal prints out its invalid
 
 // case ("Billy", "Dog", let age):
 // Explain what this does.
+// get the age value and use it
 
 // case ("Tim", "Dog", let age) where age == 2:
 // Explain what this does.
+// checking if age matches case age == 2
 
 // case (let name, let animal, ..<3):
 // Explain what this does.
+// using name and animal while animal is younger than 3
 
 // case (let name, let animal, 7...):
 // Explain what this does.
+// using name and animal values when pet is over 7 years old
 
 // case (let name, let animal, let age):
 // Explain what this does.
+// simplily prints out the pet info with the values
 
 
 /*:
@@ -66,7 +74,43 @@ let stringArray = [String]()
 
 //: Now it's your turn. Create an extension on the 'Queue' data structure you created earlier.
 //: For elements that conforms to the 'Numeric' protocol, create a function that adds all numbers together in the queue and print out its total.
+struct Queue<Element> {
+    
+    var queue: [Element] = []
+    
+    mutating func enqueue(ele: Element) {
+        self.queue.append(ele)
+    }
+    
+    mutating func dequeue(ele: Element) -> Element? {
+        
+        guard let _ : Element = queue.first else {
+            return nil
+        }
+        return queue.removeFirst()
+    }
+}
 
+extension Queue where Element: Numeric {
+    
+    func sum() {
+        var total = 0
+        
+        if let arrayOfNumbers = self.queue as? [Int] {
+            
+            for num in arrayOfNumbers {
+                total = total + num
+            }
+        }
+        
+        print(total)
+        
+    }
+}
+
+var myqueue = Queue.init(queue: [1,2,3])
+
+myqueue.sum()
 
 
 /*:
@@ -99,6 +143,7 @@ let dictionary: Dictionary? = ["Sentence 1" : "Let me help you with your baggage
                                "Sentence 2" : "I'd rather have a burger",
                                "Sentence 3" : "I think I will buy the red car"]
 
-
-
+let count1 = dictionary?["Sentence 1"]?.count
+let count2 = dictionary?["Sentence 2"]?.count
+let count3 = dictionary?["Sentence 3"]?.count
 //: [Next](@next)

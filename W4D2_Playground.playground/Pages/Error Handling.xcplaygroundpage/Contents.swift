@@ -54,6 +54,31 @@ catch let error {
  Create a Human class that has a name and age property. Also, create an initializer for this class to set its initial properties.
  */
 
+enum HumanError: Error {
+    case nameInvalidError
+    case ageInvalidError
+}
+
+class Human {
+    
+    var name: String
+    var age: Int
+    
+    init(name: String, age: Int) throws {
+        
+        if name.count < 1 {
+            throw HumanError.nameInvalidError
+        }
+        
+        if age < 0 || age > 120 {
+            throw HumanError.ageInvalidError
+        }
+        
+        self.name = name
+        self.age = age
+    }
+}
+
 
 /*:
  - Experiment:
@@ -61,17 +86,33 @@ catch let error {
  */
 
 
+
+
+
 /*:
  - Experiment:
  Now you can test your new Human class and surround it around the do-catch blocks.
  */
+
+do {
+    let human = try Human.init(name: "", age: 18)
+} catch  {
+    print(error)
+}
+
+do {
+    let human2 = try Human.init(name: "hi", age: -19)
+} catch  {
+    print(error)
+}
 
 
 /*:
  - Experiment:
  Test your Human class again but don't surround it with a do-catch block and use `try?` instead. What do you notice? (What is the value of the new human when an error is thrown?)
  */
-
+let human3 = try? Human.init(name: "man", age: -19)
+//human 3 = nil
 
 /*:
  - Experiment:
@@ -81,6 +122,7 @@ catch let error {
  */
 let data = "{\"firstName\": \"Bob\", \"lastName\": \"Doe\", \"vehicles\": [\"car\", \"motorcycle\", \"train\"]}".data(using: .utf8)!
 
+let json =  try? JSONSerialization.jsonObject(with: data, options: .mutableContainers)
 
 /*:
  - Callout(Challenge):
@@ -101,6 +143,22 @@ let email: String? = "user1@lighthouselabs.ca"
 //let password: String? = nil
 //let email: String? = "user1@lighthouselabs.ca"
 
+enum InfoError: Error {
+    case usernameMissing
+    case passwordMissing
+    case emailMissing
+}
+
+func check(username: String?, password: String?, email: String?) throws {
+    
+    guard let username = username else { throw InfoError.usernameMissing }
+    guard let password = password else { throw InfoError.passwordMissing }
+    guard let email = email else { throw InfoError.emailMissing}
+
+    print(username,password,email)
+
+}
+
 
 /*:
  - Callout(Challenge):
@@ -110,14 +168,39 @@ let email: String? = "user1@lighthouselabs.ca"
  
  Throw an error if the model doesn't exist, insufficient amount of money was given, or the car is out of stock.
  */
-class HondaDealership{
-  
-  var availableCarSupply = ["Civic" : (price: 5000, count: 5),
-                            "CRV" : (price: 7000, count: 9),
-                            "Prelude" : (price: 9000, count: 2)]
-  
-  
-  
+
+enum CarSellingError: Error {
+    
+    case notEnoughMoney
+    case modelNotExist
+    case outOfStock
+    
 }
+
+class HondaDealership{
+    
+    var availableCarSupply = ["Civic" : (price: 5000, count: 5),
+                              "CRV" : (price: 7000, count: 9),
+                              "Prelude" : (price: 9000, count: 2)]
+    
+    func sellCar(model: String, offeredPrice: Int) throws {
+        
+        guard let _ = availableCarSupply[model] else {
+            throw CarSellingError.modelNotExist
+        }
+        
+        guard  offeredPrice > availableCarSupply[model]!.price else {
+            throw CarSellingError.notEnoughMoney
+        }
+        
+        guard availableCarSupply[model]!.count > 0 else {
+            throw CarSellingError.outOfStock
+        }
+        
+        availableCarSupply[model]!.count = availableCarSupply[model]!.count - 1
+    }
+}
+
+
 
 //: [Next](@next)

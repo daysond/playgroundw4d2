@@ -45,6 +45,17 @@ let combinedValues = "abc" + 123
  - Experiment:
  Use the '*' operator to multiply a String and an Int. This returns a new String and repeats the given String the number of times delcared by the Int. ie: "abc" * 3 = "abcabcabc"
  */
+func *  (left: String, right: Int) -> String {
+    
+    var result = ""
+    for _ in 1...right {
+        result.append(left)
+    }
+    
+    return result
+}
+
+let str = "aaab" * 4
 
 
 /*:
@@ -58,12 +69,13 @@ let combinedValues = "abc" + 123
 extension Int {
   
   // Comment this function in to try it!
-  //    static func + (left: Int, right: Int) -> Int{
-  //
-  //        return left - right
-  //    }
+      static func + (left: Int, right: Int) -> Int{
+  
+          return left - right
+      }
 }
 
+let my = 3 + 2
 
 /*:
  ### Custom Operators
@@ -87,6 +99,15 @@ var incrementTwo = incrementOne+++
  Create your own custom operator using the square root symbol here: √
  */
 
+prefix operator √
+
+prefix func √ (num: Double) -> Double {
+    
+    return num.squareRoot()
+    
+}
+
+let num = √4
 
 /*:
  ### Swift Operators Guidelines
@@ -100,6 +121,15 @@ var incrementTwo = incrementOne+++
  When we have percentage values, we tend to convert them into their decimal form before doing any arithmetic to them. Create an operator with the '%' that will be a convenient operator to convert Int values into a usable percentage value. ie: 10% = 0.1
  */
 
+postfix operator %
+postfix func % (num:Int) -> Double {
+    
+    return Double(num)/100
+    
+}
+
+let num2 = 90%
+
 
 /*:
  - Callout(Challenge):
@@ -109,5 +139,23 @@ var incrementTwo = incrementOne+++
  */
 
 
+    
+func + (left: [Int], right: [Int]) -> [Int]? {
+        
+        guard left.count == right.count else { return nil }
+        
+        var result:[Int] = []
+        
+        for i in 0..<left.count {
+            
+            result.append(left[i] + right[i])
+        }
+        
+        return result
+    }
+
+
+let result = [1,2] + [3,4]
+print(result)
 
 //: [Next](@next)

@@ -34,21 +34,33 @@ printMyTwoNumbers(num1: "three", num2: "four")
  Now you try! Write a generic function that takes in two parameters and multiply their value together and print the result. (Hint: You might run into an error after finishing. Continue to the next experiment to find out why!)
  */
 
+//func multiply<Element>(_ num1: Element, by num2: Element) {
+//    print(num1*num2)
+//}
+
 
 /*:
  - Experiment:
  You might have run into error in the console regarding the multiplication operator can only be applied to numbered parameters. This makes sense as multiplying two Strings together doesn't make sense. So, we want to only take in variable types that *can* use the multiplication operator. In this case, we can limit the element type to types that conform to the `Numeric` protocol like below.
  */
 
-func multiply<Element: Numeric>(num1: Element, num2: Element) {
-  
-}
+//func multiply<Element: Numeric>(num1: Element, num2: Element) {
+//
+//}
 
 
 /*:
  - Experiment:
  Update your multiplication function and test it! Try using different variable types to see what works and what doesn't.
  */
+
+func multiply<Element: Numeric>(_ num1: Element, by num2: Element) {
+    print(num1*num2)
+}
+
+
+multiply(10, by: 5.0)
+//multiply("s", by: 10)
 
 
 /*:
@@ -59,6 +71,20 @@ func multiply<Element: Numeric>(num1: Element, num2: Element) {
  - Note:
  For this experiment, refrain from using the array method `indexOf`. Also the protocol `Equatable` might be useful here. Search it up to see what it's about.
  */
+
+func find<Element: Equatable>(array:[Element], ele: Element) -> Int? {
+    
+    for eleInArray in array {
+        if ele == eleInArray {
+            return array.firstIndex(of: ele)
+        }
+    }
+    
+    return nil
+
+}
+var array = [1,2,3,4]
+var i = find(array:array, ele: 4)
 
 
 
@@ -75,7 +101,31 @@ func multiply<Element: Numeric>(num1: Element, num2: Element) {
  - dequeue: remove an item from the queue, and return the removed element
  */
 
+struct Queue<Element> {
+    
+    var queue: [Element] = []
+    
+    mutating func enqueue(ele: Element) {
+        self.queue.append(ele)
+    }
+    
+    mutating func dequeue(ele: Element) -> Element? {
+        
+        guard let _ : Element = queue.first else {
+            return nil
+        }
+        return queue.removeFirst()
+    }
+}
 
+var myQueue = Queue.init(queue: [])
+myQueue.dequeue(ele: "hi")
+myQueue.enqueue(ele: "hiii")
+myQueue.enqueue(ele: 2)
+
+
+
+print(myQueue.queue)
 
 //: [Next](@next)
 

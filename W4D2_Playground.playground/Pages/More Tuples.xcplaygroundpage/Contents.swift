@@ -9,7 +9,7 @@ import Foundation
 /*:
  Imagine we are rolling two six-sided dice. We can use a tuple to represent each of the dice values.
  */
-let diceRoll = (5, 6)
+var diceRoll = (5, 6)
 
 // Our switch statement looks for the cases where the total value of the dice rolled is 11
 switch diceRoll {
@@ -29,6 +29,19 @@ default:
  - case (1...3, 1...3)
  - case (let x, let y) where x == y
  */
+diceRoll = (3,1)
+switch diceRoll {
+case (_,1):
+    print("at least 1")
+case (2,_):
+    print("at least 2")
+case (1...3, 1...3):
+    print("both less than 4")
+case (let x, let y) where x == y:
+    print("same !")
+default:
+    print("idk")
+}
 
 
 /*:
@@ -40,6 +53,17 @@ default:
  - Halloween Day - Oct 31
  - Otherwise, indiciate the given day is not a holiday
  */
+
+var holiday = ("Dec", "28")
+
+switch holiday {
+case ("Dec","25"):
+    print("xmas")
+case ("Jan", "1"):
+    print("NY")
+default:
+    print("NOT HOLIDAY")
+}
 
 
 /*:
@@ -54,6 +78,21 @@ default:
  - point is inside the blue outlined box
  - point is outside the blue outlined box
  */
+
+var coordinate = (2,1)
+
+switch coordinate {
+case (_, 0):
+    print("point is on the x axis")
+case (0,_):
+    print("point is on the y axis")
+case (let x, let y) where abs(x) <= 2 && abs(y) <= 2:
+    print("point is inside the blue outlined box")
+case (let x, let y) where abs(x) > 2 && abs(y) > 2:
+     print("point is outside the blue outlined box")
+default:
+    print("default")
+}
 
 
 //: [Next](@next)
